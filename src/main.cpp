@@ -1,9 +1,10 @@
 #include "board.hpp"
-#include "tile.hpp"
+#include "input.hpp"
 #include <iostream>
-
 int main() {
   Board b{};
-  std::cout << b;
-  return 0;
+
+  std::cout << b << '\n';
+
+  UserInput::handleInput();
 }

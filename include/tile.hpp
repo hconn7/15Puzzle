@@ -7,8 +7,9 @@ class Board;
 class Tile {
 
 public:
-  Tile(int value, bool empty = false) : m_value{value}, m_isEmpty{empty} {
-    assert(value > 0 || value < 15 && "Incorrect value");
+  explicit Tile() : Tile{0, false} {}
+  explicit Tile(int value, bool empty = false)
+      : m_value{value}, m_isEmpty{empty} {
     if (value == 0) {
       m_isEmpty = true;
     }
