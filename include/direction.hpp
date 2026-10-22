@@ -22,43 +22,35 @@ class Direction {
 public:
   enum EnumDirection { up, left, down, right, quit, max_directions };
 
-  static constexpr std::array<int, Direction::max_directions> asciiVal{
-      ASCiiVal::w, ASCiiVal::a, ASCiiVal::s, ASCiiVal::d, ASCiiVal::q};
-  static constexpr std::array<int, Direction::max_directions> enumVal{0, 1, 2,
-                                                                      3, 4};
-  static_assert(asciiVal.size() == Direction::max_directions);
-  static_assert(enumVal.size() == Direction::max_directions);
-
-  explicit Direction(char intDirection)
-      : m_direction{charToEnumDir(intDirection)} {}
+  explicit Direction(EnumDirection intDirection) : m_direction{intDirection} {}
 
   // Function n stuff
   friend std::ostream& operator<<(std::ostream& out, Direction& dir);
 
-  EnumDirection& operator-() {
+  Direction operator-() {
     switch (m_direction) {
     case up:
-      return m_direction = down;
+      return Direction{down};
     case left:
-      return m_direction = right;
+      return Direction{right};
     case down:
-      return m_direction = up;
+      return Direction{up};
     case right:
-      return m_direction = left;
+      return Direction{left};
 
     default:
-      std::cout << "failed to switch via - op";
+      break;
     }
-    return m_direction = static_cast<EnumDirection>(6);
+    return Direction{max_directions};
   }
 
-  static EnumDirection charToEnumDir(char c);
+  static EnumDirection charToDir(char c);
 
   EnumDirection getDirection() const { return m_direction; }
 
   int getAsciiIdx(int c);
 
-  std::string_view directionToString(int c);
+  std::string_view directionToString(Direction d);
 
 private:
   EnumDirection m_direction;

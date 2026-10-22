@@ -3,40 +3,41 @@
 #include <string_view>
 
 std::ostream& operator<<(std::ostream& out, Direction& dir) {
-  Direction::EnumDirection direction{dir.getDirection()};
+  Direction direction{dir.getDirection()};
   std::string_view str{dir.directionToString(direction)};
 
   return out << str;
 }
 
-std::string_view Direction::directionToString(int c) {
-  if (c < 0) {
-    c = (c * -1);
+std::string_view Direction::directionToString(Direction d) {
+  switch (d.getDirection()) {
+  case 0:
+    return "up";
+  case 1:
+    return "left";
+  case 2:
+    return "down";
+  case 3:
+    return "right";
+  dedefault:
+    Direction::EnumDirection{max_directions};
+    break;
   }
-  static constexpr std::array<std::string_view, Direction::max_directions>
-      dirStr{"up", "left", "down", "right", "quit"};
-  int idx{getAsciiIdx(c)};
-
-  if (idx == 6 || idx >= Direction::max_directions) {
-    return "Unknown";
-  }
-
-  return dirStr[idx];
-}
-Direction::EnumDirection Direction::charToEnumDir(char c) {
-  for (int i{0}; i < Direction::max_directions; ++i) {
-    if (Direction::asciiVal[i] == c) {
-      return static_cast<Direction::EnumDirection>(i);
-    }
-  }
-  return static_cast<Direction::EnumDirection>(6);
 }
 
-int Direction::getAsciiIdx(int c) {
-  for (int i{0}; i < Direction::max_directions; ++i) {
-    if (Direction::enumVal[i] == c) {
-      return static_cast<int>(i);
-    }
+Direction::EnumDirection Direction::charToDir(char c) {
+  switch (c) {
+  case 'w':
+    return Direction::EnumDirection{up};
+  case 's':
+    return Direction::EnumDirection{down};
+  case 'a':
+    return Direction::EnumDirection{left};
+  case 'd':
+    return Direction::EnumDirection{right};
+  dedefault:
+    Direction::EnumDirection{max_directions};
+    break;
   }
-  return -1;
+  return Direction::EnumDirection{max_directions};
 }

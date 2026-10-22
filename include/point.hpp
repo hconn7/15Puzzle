@@ -1,6 +1,5 @@
 #pragma once
 
-#include "board.hpp"
 #include "direction.hpp"
 #include <ostream>
 #include <random>
@@ -8,9 +7,9 @@ class Point {
 public:
   Point(int x, int y) : m_x{x}, m_y{y} {}
 
-  Point getAdjacentPoint(Direction::EnumDirection d) {
+  Point getAdjacentPoint(Direction d) {
     Point adjacent{*this};
-    switch (d) {
+    switch (d.getDirection()) {
     case Direction::up:
       adjacent.m_y -= 1;
       break;
@@ -26,9 +25,11 @@ public:
     default:
       break;
     }
-    std::cout << adjacent << ": adjacent!";
     return adjacent;
   };
+
+  int getPointX() { return m_x; }
+  int getPointY() { return m_y; }
   bool operator==(Point p2) const { return m_x == p2.m_x && m_y == p2.m_y; }
 
   friend std::ostream& operator<<(std::ostream& out, Point& point);

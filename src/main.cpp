@@ -3,26 +3,36 @@
 #include "point.hpp"
 #include <iostream>
 int main() {
-  // Your code goes here
 
-  // Note: save your main() from the prior step, as you'll need it again in the
-  // next step
+  Board b{};
+  Board w{};
+  char input{};
+  b.randomize();
+  std::cout << b;
+  while (true) {
 
-  // Note: save your main() from the prior step, as you'll need it
-  // again in the next step
-  std::cout << std::boolalpha;
-  std::cout << (Point{1, 1}.getAdjacentPoint(Direction::up) == Point{1, 0})
-            << '\n';
-  std::cout << (Point{1, 1}.getAdjacentPoint(Direction::down) == Point{1, 2})
-            << '\n';
-  std::cout << (Point{1, 1}.getAdjacentPoint(Direction::left) == Point{0, 1})
-            << '\n';
-  std::cout << (Point{1, 1}.getAdjacentPoint(Direction::right) == Point{2, 1})
-            << '\n';
-  std::cout << (Point{1, 1} != Point{2, 1}) << '\n';
-  std::cout << (Point{1, 1} != Point{1, 2}) << '\n';
-  std::cout << !(Point{1, 1} != Point{1, 1}) << '\n';
+    std::cin >> input;
+    std::cin.clear();
+    if (!std::cin) {
+      std::cin.ignore();
+      std::cin.clear();
+    }
+    if (input == 'w' || input == 'a' || input == 's' || input == 'd') {
 
-  UserInput::handleInput();
+      Direction direction{Direction::charToDir(input)};
+
+      b.moveTile(direction);
+      std::cout << "\n\n\n";
+      std::cout << b;
+
+      if (b == w) {
+        "You win!";
+      }
+    } else if (input == 'q') {
+      std::cout << '\n' << "Bye!" << '\n';
+      break;
+    }
+    continue;
+  }
   return 0;
 }
